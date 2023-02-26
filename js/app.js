@@ -1,5 +1,7 @@
 const video = document.getElementById("webcam");
 const label = document.getElementById("label");
+const score = document.getElementById("score");
+let globalScore = 0;
 
 // const labelOneBtn = document.querySelector("#labelOne");
 // const labelTwoBtn = document.querySelector("#labelTwo");
@@ -46,28 +48,28 @@ function videoReady() {
 }
 
 
-function addLuke() {
-    console.log('add luke')
-    label.innerText = 'Added Luke';
-    classifier.addImage(document.getElementById('webcam'), 'Luke');
-}
-
-function addNonLuke() {
-    console.log('add non luke')
-    label.innerText = 'Added non Luke';
-    classifier.addImage(document.getElementById('webcam'), 'nonLuke');
-}
+// function addLuke() {
+//     console.log('add luke')
+//     label.innerText = 'Added Luke';
+//     classifier.addImage(document.getElementById('webcam'), 'Luke');
+// }
+//
+// function addNonLuke() {
+//     console.log('add non luke')
+//     label.innerText = 'Added non Luke';
+//     classifier.addImage(document.getElementById('webcam'), 'nonLuke');
+// }
 
 // Retrain the network
-function train() {
-classifier.train((lossValue) => {
-    if (lossValue === null) {
-        label.innerText = 'Training Completed';
-    } else {
-        label.innerText = 'Loss is ' + lossValue;
-}
-});
-}
+// function train() {
+// classifier.train((lossValue) => {
+//     if (lossValue === null) {
+//         label.innerText = 'Training Completed';
+//     } else {
+//         label.innerText = 'Loss is ' + lossValue;
+// }
+// });
+// }
 
 // Get a prediction for that image
 function classify() {
@@ -77,18 +79,24 @@ classifier.classify(document.getElementById('webcam'), (err, result) => {
     if (result[0].label == 'giraffe') {
         speak(`That looks like a fine giraffe`)
         label.innerText = 'That looks like a fine giraffe';
+        globalScore++
+        console.log(globalScore)
+        score.innerText = 'Score: ' + globalScore;
     } else {
-        speak(`that ain't no giraffe man..`)
-        label.innerText = 'that aint no giraffe man';
+        speak(`that ain't no giraffe man.. that is ` + result[0].label)
+        label.innerText = `that ain't no giraffe man.. that is `  + result[0].label;
+        globalScore--
+        console.log(globalScore)
+        score.innerText = 'Score: ' + globalScore;
     }
 });
 }
 
 // Save the model locally
-function save() {
-    label.innerText = 'Model saved to download folder.';
-    featureExtractor.save();
-}
+// function save() {
+//     label.innerText = 'Model saved to download folder.';
+//     featureExtractor.save();
+// }
 
 let synth = window.speechSynthesis
 

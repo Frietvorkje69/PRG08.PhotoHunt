@@ -211,6 +211,13 @@ div {
      color: white;
      background-color: black;
  }
+
+ #score {
+     width: 533px;
+     height: 20px;
+     max-width: 400px;
+     color: white;
+ }
  /* flip the video image */
  video {
      display: flex;
